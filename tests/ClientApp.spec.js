@@ -18,8 +18,7 @@ test('register functionality', async ({page,browser})=>{
 });
 
 
-
-test.only('Login functionality', async ({page,browser})=>{
+test('Login functionality', async ({page,browser})=>{
     //Usertest1211@gmail.com Password@1
 
     await page.goto("https://rahulshettyacademy.com/client/#/auth/login");
@@ -30,4 +29,15 @@ test.only('Login functionality', async ({page,browser})=>{
 
     console.log(await page.locator(".card-body b").allTextContents());
 });
+
+test.only('Dropdown Handling', async ({page})=>{
+
+    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+    await page.selectOption('select.form-control', 'teach');
+    await page.pause();
+});
+
+
+
+
 

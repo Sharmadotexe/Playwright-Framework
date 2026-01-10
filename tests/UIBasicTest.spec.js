@@ -29,7 +29,7 @@ test('Login', async ({browser, page})=>{
 });
 
 
-test.only('Negative Login', async ({page})=>{
+test('Negative Login', async ({page})=>{
 
    //locators
    const pass = page.locator("[name='password']");
@@ -67,3 +67,39 @@ test.only('Negative Login', async ({page})=>{
    console.log(allTitles);
 
 });
+
+
+test.only('Blinking Text', async ({browser})=>{
+   const context = await browser.newContext();
+   const page = await context.newPage();
+
+   await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+   const loc = page.locator("[href*= documents-request]");
+   await expect(loc).toHaveAttribute("class","blinkingText");
+
+   const [newPage] = await Promise.all([
+      context.waitForEvent('page'),
+      loc.click()
+   ]);
+
+
+   const text =  await newPage.locator(".red").textContent();
+   console.log(text);
+
+   const arrText = text.split("@");
+   const email = arrText[1].split(" ")[0];
+
+   console.log(email);
+
+
+   await page.locator("#username").fill(email);
+   await page.pause();
+
+
+
+
+
+
+});
+
+
