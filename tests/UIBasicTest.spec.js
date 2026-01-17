@@ -89,11 +89,11 @@ test.only('Blinking Text', async ({browser})=>{
    const arrText = text.split("@");
    const email = arrText[1].split(" ")[0];
 
-   console.log(email);
+   // console.log(email);
 
 
    await page.locator("#username").fill(email);
-   await page.pause();
+   console.log( await page.locator("#username").inputValue());
 
 
 
