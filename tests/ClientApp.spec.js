@@ -41,7 +41,7 @@ test('Dropdown Handling', async ({page})=>{
 });
 
 
-test.only('Special Locators', async({page})=>{
+test('Special Locators', async({page})=>{
     await page.goto("https://rahulshettyacademy.com/angularpractice/");
 
     await page.getByLabel("Check me out if you Love IceCreams!").check();
@@ -58,6 +58,25 @@ test.only('Special Locators', async({page})=>{
     //chaining methods
     await page.getByRole("link", {name: "Shop"}).click();
     await page.locator("app-card").filter({hasText: "Nokia Edge"}).getByRole("button", {name:"Add"}).click();
+});
+
+
+
+test.only('Calender Handling', async({page})=>{
+
+    const date = "15";
+    const month = "01";
+    const year = "2026";
+
+    await page.goto("http://rahulshettyacademy.com/seleniumPractise/#/offers");
+    await page.locator(".react-date-picker__inputGroup").click();
+    await page.locator(".react-calendar__navigation__label").click();
+    await page.locator(".react-calendar__navigation__label").click();
+    await page.locator(".react-calendar__tile.react-calendar__decade-view__years__year").getByText(year).click();
+    await page.locator(".react-calendar__tile").nth(Number(month)-1).click();
+    await page.locator(`//abbr[text()="${date}"]`).click();
+
+    
 });
 
 
