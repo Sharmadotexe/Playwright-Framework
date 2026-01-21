@@ -94,12 +94,7 @@ test.only('Blinking Text', async ({browser})=>{
 
    await page.locator("#username").fill(email);
    console.log( await page.locator("#username").inputValue());
-
-
-
-
-
-
+   
 });
 
 

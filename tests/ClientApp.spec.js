@@ -15,9 +15,6 @@ test('register functionality', async ({page,browser})=>{
     await page.locator("#confirmPassword").fill("pass");
     await page.locator("[type='checkbox']").click();
     await page.locator("#login").click();
-
-
-
 });
 
 
@@ -62,7 +59,7 @@ test('Special Locators', async({page})=>{
 
 
 
-test.only('Calender Handling', async({page})=>{
+test('Calender Handling', async({page})=>{
 
     const date = "15";
     const month = "01";
@@ -77,6 +74,27 @@ test.only('Calender Handling', async({page})=>{
     await page.locator(`//abbr[text()="${date}"]`).click();
 
     
+});
+
+
+
+test.only('Handling Popups', async({page})=>{
+   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+    // page.goto("https://www.google.com/");
+
+    // page.goBack();
+    // page.goForward();
+    // page.goBack();
+
+
+    await page.locator("#confirmbtn").click();
+    await page.on("dialog", dialog => dialog.accept());
+
+    await page.locator("#confirmbtn").click();
+    await page.on("dialog", dialog => dialog.dismiss());
+
+
+    await page.locator("#mousehover").hover();
 });
 
 
