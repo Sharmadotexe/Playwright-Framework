@@ -78,7 +78,7 @@ test('Calender Handling', async({page})=>{
 
 
 
-test.only('Handling Popups', async({page})=>{
+test('Handling Popups', async({page})=>{
    await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     // page.goto("https://www.google.com/");
 
@@ -95,6 +95,15 @@ test.only('Handling Popups', async({page})=>{
 
 
     await page.locator("#mousehover").hover();
+});
+
+
+
+test.only('Handling Framses', async({page})=>{
+   await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
+   const pageFrame = page.frameLocator("#courses-iframe");
+
+   await pageFrame.locator("li a[href='lifetime-access']:visible").click();
 });
 
 
