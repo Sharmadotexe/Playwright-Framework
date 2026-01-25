@@ -1,7 +1,9 @@
 const {expect, test, request} = require('@playwright/test');
+const ApiUtils = require('./utils/ApiUtil');
 
 let token;
 let orderID;
+let response;
 
 const loginPayload = {
     userEmail: "Usertest1211@gmail.com",
@@ -18,38 +20,18 @@ const orderIdPayload = {
 test.beforeAll( async()=>{
     const apiContext = await request.newContext({
         ignoreHTTPSErrors: true,
-    });
-    const loginResponse =  await apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login", 
-        {
-            data:loginPayload
-        });
-        await expect(loginResponse).toBeOK();
-        const loginResponseJson = await loginResponse.json();
-        token = loginResponseJson.token;
+    });    
 
-
-
-        //create order API
-    const orderResponse = await apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
-        data: orderIdPayload,
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json'
-        }
-    }); 
-
-    const orderResponseJson = await orderResponse.json();
-    console.log(orderResponseJson);
-    orderID = orderResponseJson.orders[0];
+    const ApiUtil = new ApiUtils(apiContext, loginPayload);
+    response = await ApiUtil.createOrder(orderIdPayload);
 });
 
 
 
 test("End to End Demo test", async ({page})=>{
-
     await page.addInitScript(value =>{
         window.localStorage.setItem('token', value);
-    }, token);
+    }, response.token);
 
     await page.goto("https://rahulshettyacademy.com/client/#/dashboard/dash");
 
@@ -63,7 +45,7 @@ test("End to End Demo test", async ({page})=>{
     for(let i = 0; i < rowCount; i++){
             let specRow = await row.nth(i).locator("th").textContent();
 
-        if(orderID.includes(specRow)){
+        if(response.orderID.includes(specRow)){
             console.log(specRow);
             await row.nth(i).locator("button").first().click();
             break;
@@ -76,7 +58,7 @@ test("End to End Demo test", async ({page})=>{
 
     // order page
     const orderIDLoc =await page.locator('.col-text.-main').textContent();
-    await expect(orderID.includes(orderIDLoc)).toBeTruthy();
+    await expect(response.orderID.includes(orderIDLoc)).toBeTruthy();
 });
 
 
