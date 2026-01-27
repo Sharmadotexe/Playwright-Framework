@@ -1,4 +1,4 @@
-const {expect, test, request} = require('@playwright/test');
+const { expect, test, request } = require('@playwright/test');
 const ApiUtils = require('./utils/ApiUtil');
 
 let token;
@@ -17,10 +17,10 @@ const orderIdPayload = {
     }]
 }
 
-test.beforeAll( async()=>{
+test.beforeAll(async () => {
     const apiContext = await request.newContext({
         ignoreHTTPSErrors: true,
-    });    
+    });
 
     const ApiUtil = new ApiUtils(apiContext, loginPayload);
     response = await ApiUtil.createOrder(orderIdPayload);
@@ -28,8 +28,8 @@ test.beforeAll( async()=>{
 
 
 
-test("End to End Demo test", async ({page})=>{
-    await page.addInitScript(value =>{
+test("End to End Demo test", async ({ page }) => {
+    await page.addInitScript(value => {
         window.localStorage.setItem('token', value);
     }, response.token);
 
@@ -42,22 +42,22 @@ test("End to End Demo test", async ({page})=>{
     const row = await page.locator('tbody tr');
     const rowCount = await row.count();
 
-    for(let i = 0; i < rowCount; i++){
-            let specRow = await row.nth(i).locator("th").textContent();
+    for (let i = 0; i < rowCount; i++) {
+        let specRow = await row.nth(i).locator("th").textContent();
 
-        if(response.orderID.includes(specRow)){
+        if (response.orderID.includes(specRow)) {
             console.log(specRow);
             await row.nth(i).locator("button").first().click();
             break;
         }
-        else{
+        else {
             console.log("OrderID not found");
             expect().toBeFalsy();
         }
     }
 
     // order page
-    const orderIDLoc =await page.locator('.col-text.-main').textContent();
+    const orderIDLoc = await page.locator('.col-text.-main').textContent();
     await expect(response.orderID.includes(orderIDLoc)).toBeTruthy();
 });
 
