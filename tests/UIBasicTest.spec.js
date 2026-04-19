@@ -14,8 +14,8 @@ test('Page fixture Test', async ({browser, page})=>{
    await page.goto("https://www.google.com/");
 });
 
-
 test('Login', async ({browser, page})=>{
+   await page.route('**/*.css', route=> route.abort());
 
    await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 
@@ -69,7 +69,7 @@ test('Negative Login', async ({page})=>{
 });
 
 
-test.only('Blinking Text', async ({browser})=>{
+test('Blinking Text', async ({browser})=>{
    const context = await browser.newContext();
    const page = await context.newPage();
 
@@ -96,5 +96,13 @@ test.only('Blinking Text', async ({browser})=>{
    console.log( await page.locator("#username").inputValue());
    
 });
+
+
+test.only('Visual Testing', async({page})=>{
+   await page.goto("https://www.google.com/");
+   expect( await page.screenshot()).toMatchSnapshot('landingPage.png',{
+        maxDiffPixelRatio: 0.1
+   });
+})
 
 
