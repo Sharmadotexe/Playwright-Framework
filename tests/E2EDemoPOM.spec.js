@@ -1,10 +1,10 @@
-const {test,expect} = require("@playwright/test");
+const { test, expect } = require("@playwright/test");
 const { LoginPage } = require("../pageObjects/LoginPage");
+const { DashboardPage } = require("../pageObjects/DashboardPage");
 
 
-test("End to End Demo test", async ({page})=>{
+test("End to End Demo test", async ({ page }) => {
     const loginPage = new LoginPage(page);
-
 
     //variables
     const email = "Usertest1211@gmail.com";
@@ -13,30 +13,12 @@ test("End to End Demo test", async ({page})=>{
 
 
     await loginPage.goToPage();
-    await loginPage.validLogin(email,password);
+    await loginPage.validLogin(email, password);
 
-    //waiting for titles to load
-    await page.locator(".card-body b").first().waitFor();
+    const dashboardPage = new DashboardPage(page);
+    await dashboardPage.searchProductAndAdd(productName);
+    await dashboardPage.navigateToCart();
 
-    //condition
-    const allProducts = page.locator(".card-body");
-    const num = await allProducts.count();
-
-    for(let i = 0; i< num; i++){
-        let specProduct = allProducts.nth(i);
-
-        let title = await specProduct.locator('b').textContent();
-
-        if(title?.trim() === productName){
-            await specProduct.locator(".fa-shopping-cart").click();
-            break;
-        }  
-    }
-
-    //cart section
-    // wait for spinner overlay to disappear
-    await page.locator('.ngx-spinner-overlay').waitFor({ state: 'hidden' });
-    await page.locator('[routerlink="/dashboard/cart"]').click();
     await expect(page.locator('.cartSection h3')).toHaveText(productName);
 
     await page.locator('li.totalRow button.btn-primary').click();
@@ -54,26 +36,26 @@ test("End to End Demo test", async ({page})=>{
     await page.locator('[type="submit"]').click(); //click apply coupon
     await page.locator('.mt-1.ng-star-inserted').waitFor();
     await expect(page.locator('.mt-1.ng-star-inserted')).toHaveText("* Coupon Applied");
-    
 
-   await expect(page.locator('input[type="text"]').nth(4)).toHaveValue(email); //email
+
+    await expect(page.locator('input[type="text"]').nth(4)).toHaveValue(email); //email
 
     await page.locator('.form-group input').pressSequentially("India"); // country
 
-    
+
     const countryNames = await page.locator('.ta-results');
     await countryNames.waitFor();
 
-    
+
     const cnt = await countryNames.locator('button').count();
 
-    for(let i = 0; i< cnt; i++){
+    for (let i = 0; i < cnt; i++) {
         let specCountry = await countryNames.locator('button').nth(i).textContent();
 
-        if(specCountry?.trim() === "India"){
-         await countryNames.locator('button').nth(i).click();
-         break;
-        }  
+        if (specCountry?.trim() === "India") {
+            await countryNames.locator('button').nth(i).click();
+            break;
+        }
     }
 
     await page.locator(".btnn.action__submit").click();
@@ -94,22 +76,22 @@ test("End to End Demo test", async ({page})=>{
     const row = await page.locator('tbody tr');
     const rowCount = await row.count();
 
-    for(let i = 0; i < rowCount; i++){
-            let specRow = await row.nth(i).locator("th").textContent();
+    for (let i = 0; i < rowCount; i++) {
+        let specRow = await row.nth(i).locator("th").textContent();
 
-        if(orderID.includes(specRow)){
+        if (orderID.includes(specRow)) {
             console.log(specRow);
             await row.nth(i).locator("button").first().click();
             break;
         }
-        else{
+        else {
             console.log("OrderID not found");
             expect().toBeFalsy();
         }
     }
 
     // order page
-    const orderIDLoc =await page.locator('.col-text.-main').textContent();
+    const orderIDLoc = await page.locator('.col-text.-main').textContent();
     await expect(orderID.includes(orderIDLoc)).toBeTruthy();
     await expect(page.locator('p[class="text"]').nth(0)).toHaveText(email);
     await expect(page.locator('p[class="text"]').nth(2)).toHaveText(email);
