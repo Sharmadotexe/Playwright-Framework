@@ -14,9 +14,9 @@ import { chromium, defineConfig, devices } from '@playwright/test';
  */
 module.exports= defineConfig({
   testDir: './tests',
-  timeout: 15* 1000,
+  timeout: 15000* 1000,
   expect: {
-    timeout: 15* 1000,
+    timeout: 15000* 1000,
   },
   reporter:'html',
   use: {

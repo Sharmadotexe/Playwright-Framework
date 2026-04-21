@@ -29,12 +29,20 @@ async function readExcelTest(worksheet,searchText) {
 
 
 test('Upload-Download', async({page})=>{
+    const searchText = "Mango";
+    const modifyText = "Test";
+    const filePath = "C:/Users/FF612ZH/Downloads/download.xlsx";
+
     await page.goto("https://rahulshettyacademy.com/upload-download-test/");
     const downloadPromise = page.waitForEvent('download');
     await page.getByRole('button', {name:'Download'}).click();
     const downloadP = await downloadPromise;
-    await downloadP.saveAs("C:/Users/FF612ZH/Downloads/download.xlsx");
-    writeExcelTest("Mango", "Test","C:/Users/FF612ZH/Downloads/download.xlsx");
+    await downloadP.saveAs(filePath);
+    await page.waitForTimeout(500);
+    await writeExcelTest(searchText,modifyText,filePath);
     await page.locator("#fileinput").click();
-    await page.locator("#fileinput").setInputFiles("C:/Users/FF612ZH/Downloads/download.xlsx");
+    await page.locator("#fileinput").setInputFiles(filePath);
+    const textLocator = page.getByText(modifyText);
+    const desiredRow = await page.getByRole('row').filter({has:textLocator});
+    await expect(desiredRow.locator("#cell-2-undefined")).toContainText(modifyText);
 })
