@@ -19,11 +19,8 @@ test("End to End Demo test", async ({ page }) => {
     await dashboardPage.searchProductAndAdd(productName);
     await dashboardPage.navigateToCart();
 
-    await expect(page.locator('.cartSection h3')).toHaveText(productName);
-
-    await page.locator('li.totalRow button.btn-primary').click();
-
-
+    const cartPage = poManager.getCartPage(page);
+    await cartPage.validateAndCheckout(productName);
 
     await page.locator('input[type="text"]').nth(0).fill("0001 9931 9292 9999"); // credit card number
     await page.locator('select.input.ddl').nth(0).selectOption({ label: '02' }); // DD1
