@@ -1,21 +1,21 @@
 const { test, expect } = require("@playwright/test");
-const { LoginPage } = require("../pageObjects/LoginPage");
-const { DashboardPage } = require("../pageObjects/DashboardPage");
+const { POManager } = require("../pageObjects/POManager");
+
 
 
 test("End to End Demo test", async ({ page }) => {
-    const loginPage = new LoginPage(page);
+    const poManager = new POManager(page);
 
     //variables
     const email = "Usertest1211@gmail.com";
     const password = "Password@1";
     const productName = "iphone 13 pro";
 
-
+    const loginPage = poManager.getLoginPage();
     await loginPage.goToPage();
     await loginPage.validLogin(email, password);
-
-    const dashboardPage = new DashboardPage(page);
+    
+    const dashboardPage = poManager.getDashboardPage();
     await dashboardPage.searchProductAndAdd(productName);
     await dashboardPage.navigateToCart();
 
