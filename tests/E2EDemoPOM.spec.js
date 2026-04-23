@@ -1,8 +1,6 @@
 const { test, expect } = require("@playwright/test");
 const { POManager } = require("../pageObjects/POManager");
 
-
-
 test("End to End Demo test", async ({ page }) => {
     const poManager = new POManager(page);
 
@@ -10,11 +8,19 @@ test("End to End Demo test", async ({ page }) => {
     const email = "Usertest1211@gmail.com";
     const password = "Password@1";
     const productName = "iphone 13 pro";
+    const cardNumber = "0001 9931 9292 9999";
+    const monthValue = '02';
+    const DateValue = '10';
+    const cvvNumber = "0099";
+    const nameOnCard = "Vikas";
+    const couponCode = "rahulshettyacademy";
+    const countryName = "India";
+    
 
-    const loginPage = poManager.getLoginPage();
+    const loginPage = poManager.getLoginPage(page);
     await loginPage.goToPage();
     await loginPage.validLogin(email, password);
-    
+
     const dashboardPage = poManager.getDashboardPage();
     await dashboardPage.searchProductAndAdd(productName);
     await dashboardPage.navigateToCart();
@@ -22,41 +28,12 @@ test("End to End Demo test", async ({ page }) => {
     const cartPage = poManager.getCartPage(page);
     await cartPage.validateAndCheckout(productName);
 
-    await page.locator('input[type="text"]').nth(0).fill("0001 9931 9292 9999"); // credit card number
-    await page.locator('select.input.ddl').nth(0).selectOption({ label: '02' }); // DD1
-    await page.locator('select.input.ddl').nth(1).selectOption({ label: '10' }); // DD2
-
-
-    await page.locator('input[type="text"]').nth(1).fill("0909"); //    CVV
-    await page.locator('input[type="text"]').nth(2).fill("Vikas"); //    name on card
-    await page.locator('input[type="text"]').nth(3).fill("rahulshettyacademy"); //    apply coupon
-    await page.locator('[type="submit"]').click(); //click apply coupon
-    await page.locator('.mt-1.ng-star-inserted').waitFor();
-    await expect(page.locator('.mt-1.ng-star-inserted')).toHaveText("* Coupon Applied");
-
-
-    await expect(page.locator('input[type="text"]').nth(4)).toHaveValue(email); //email
-
-    await page.locator('.form-group input').pressSequentially("India"); // country
-
-
-    const countryNames = await page.locator('.ta-results');
-    await countryNames.waitFor();
-
-
-    const cnt = await countryNames.locator('button').count();
-
-    for (let i = 0; i < cnt; i++) {
-        let specCountry = await countryNames.locator('button').nth(i).textContent();
-
-        if (specCountry?.trim() === "India") {
-            await countryNames.locator('button').nth(i).click();
-            break;
-        }
-    }
-
-    await page.locator(".btnn.action__submit").click();
-
+    const checkoutPage = poManager.getCheckOutPage(page);
+    await checkoutPage.fillCreditCardDetails(cardNumber, monthValue, DateValue, cvvNumber);
+    await checkoutPage.fillNameAndCouponCode(nameOnCard,couponCode);
+    await checkoutPage.clickOnApplyCouponandExpect();
+    await checkoutPage.validateEmailAndFillCountry(email,countryName);
+    await checkoutPage.clickSubmit();
 
     //Order confirmed page
     const thankyouText = await page.locator(".hero-primary");
