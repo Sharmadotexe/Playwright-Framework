@@ -98,7 +98,7 @@ test('Blinking Text', async ({browser})=>{
 });
 
 
-test.only('Visual Testing', async({page})=>{
+test.only('@WEB Visual Testing', async({page})=>{
    await page.goto("https://www.google.com/");
    expect( await page.screenshot()).toMatchSnapshot('landingPage.png',{
         maxDiffPixelRatio: 0.1
