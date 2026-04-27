@@ -69,7 +69,7 @@ test('Negative Login', async ({page})=>{
 });
 
 
-test('Blinking Text', async ({browser})=>{
+test('@WEB Blinking Text', async ({browser})=>{
    const context = await browser.newContext();
    const page = await context.newPage();
 
@@ -98,7 +98,7 @@ test('Blinking Text', async ({browser})=>{
 });
 
 
-test.only('@WEB Visual Testing', async({page})=>{
+test('@WEB Visual Testing', async({page})=>{
    await page.goto("https://www.google.com/");
    expect( await page.screenshot()).toMatchSnapshot('landingPage.png',{
         maxDiffPixelRatio: 0.1

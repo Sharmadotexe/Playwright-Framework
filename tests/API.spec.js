@@ -28,7 +28,7 @@ test.beforeAll(async () => {
 
 
 
-test("End to End Demo test", async ({ page }) => {
+test(" @API End to End Demo test", async ({ page }) => {
     await page.addInitScript(value => {
         window.localStorage.setItem('token', value);
     }, response.token);

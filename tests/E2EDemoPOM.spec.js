@@ -3,9 +3,9 @@ const {customtest} = require("../utils/testBase")
 const { POManager } = require("../pageObjects/POManager");
 const dataSet = JSON.parse(JSON.stringify(require("../utils/E2EDemoPOMTestData.json")));
 
-test.describe.configure({mode:'parallel'});
+// test.describe.configure({mode:'parallel'});
 for(const data of dataSet){
-test(`End to End Demo test for ${data.productName}`, async ({ page }) => {
+test(`@WEB End to End Demo test for ${data.productName}`, async ({ page }) => {
     const poManager = new POManager(page);
     let orderID;
     
@@ -42,7 +42,7 @@ test(`End to End Demo test for ${data.productName}`, async ({ page }) => {
 }
 
 
-customtest('@WEB End to End Test from custom text data', async({page, testDataForOrder})=>{
+customtest('End to End Test from custom text data', async({page, testDataForOrder})=>{
 const poManager = new POManager(page);
     let orderID;
     

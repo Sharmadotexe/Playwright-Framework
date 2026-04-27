@@ -99,7 +99,7 @@ test('Handling Popups', async({page})=>{
 
 
 
-test.only('Handling Framses', async({page})=>{
+test('Handling Framses', async({page})=>{
    await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
    const pageFrame = page.frameLocator("#courses-iframe");
 

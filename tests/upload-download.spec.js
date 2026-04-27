@@ -28,7 +28,7 @@ async function readExcelTest(worksheet,searchText) {
 }
 
 
-test('Upload-Download', async({page})=>{
+test('@WEB Upload-Download', async({page})=>{
     const searchText = "Mango";
     const modifyText = "Test";
     const filePath = "C:/Users/FF612ZH/Downloads/download.xlsx";

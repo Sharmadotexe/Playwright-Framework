@@ -7,3 +7,9 @@ node_modules/
 /playwright/.cache/
 /playwright/.auth/
 state.json
+
+
+# Allure reports
+allure-report/
+allure-results/
+
