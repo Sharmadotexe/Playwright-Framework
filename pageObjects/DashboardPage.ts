@@ -1,5 +1,13 @@
-class DashboardPage {
-    constructor(page) {
+import {Page, Locator} from "@playwright/test"
+
+export class DashboardPage {
+
+    page:Page;
+    allProducts:Locator;
+    overlayLocator:Locator;
+    cartLocator:Locator;
+
+    constructor(page:Page) {
         this.page = page;
         this.allProducts = page.locator(".card-body");
         this.overlayLocator = page.locator('.ngx-spinner-overlay');
@@ -7,7 +15,7 @@ class DashboardPage {
     };
 
 
-    async searchProductAndAdd(productName) {
+    async searchProductAndAdd(productName:string) {
         const num = await this.allProducts.count();
 
         for (let i = 0; i < num; i++) {

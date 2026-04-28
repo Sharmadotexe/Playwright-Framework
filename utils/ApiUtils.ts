@@ -1,11 +1,15 @@
-module.exports = class ApiUtils {
+import {Page,Locator} from "@playwright/test"
 
-    constructor(apiContext, loginPayload) {
+export class ApiUtils {
+    apiContext:any;
+    loginPayload:any;
+
+    constructor(apiContext:any, loginPayload:any) {
         this.apiContext = apiContext;
         this.loginPayload = loginPayload;
     }
 
-    async createToken(loginPayload) {
+    async createToken() {
         const loginResponse = await this.apiContext.post("https://rahulshettyacademy.com/api/ecom/auth/login",
             {
                 data: this.loginPayload
@@ -16,8 +20,8 @@ module.exports = class ApiUtils {
     };
 
 
-    async createOrder(orderIdPayload) {
-        let response = {};
+    async createOrder(orderIdPayload:any) {
+        let response:any = {};
         response.token = await this.createToken();
 
         const orderResponse = await this.apiContext.post("https://rahulshettyacademy.com/api/ecom/order/create-order", {
@@ -35,3 +39,5 @@ module.exports = class ApiUtils {
         return response;
     };
 }
+
+module.exports = {ApiUtils}

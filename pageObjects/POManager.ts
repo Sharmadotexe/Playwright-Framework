@@ -1,13 +1,24 @@
-const { LoginPage } = require("../pageObjects/LoginPage");
-const { DashboardPage } = require("../pageObjects/DashboardPage");
-const { CartPage } = require("./CartPage");
-const { CheckoutPage } = require("./CheckoutPage");
-const { OrderConfirmationPage } = require("./OrderConfirmationPage");
-const { OrdersPage } = require("./OrdersPage");
-const { ConfirmOrderPage } = require("./ConfirmOrderPage");
+import { LoginPage } from "./LoginPage";
+import { DashboardPage } from "./DashboardPage";
+import { CartPage } from "./CartPage";
+import { CheckoutPage } from "./CheckoutPage";
+import { OrderConfirmationPage } from "./OrderConfirmationPage";
+import { OrdersPage } from "./OrdersPage";
+import { ConfirmOrderPage } from "./ConfirmOrderPage";
+import {Page} from "@playwright/test";
 
-class POManager{
-    constructor(page){
+export class POManager{
+
+    page:Page;
+    loginPage:LoginPage;
+    dashboardPage:DashboardPage;
+    cartPage:CartPage;
+    checkOutPage:CheckoutPage;
+    orderConfirmationPage:OrderConfirmationPage;
+    ordersPage:OrdersPage;
+    confirmOrderPage:ConfirmOrderPage;
+
+    constructor(page:Page){
         this.page=page;
         this.loginPage = new LoginPage(this.page);
         this.dashboardPage = new DashboardPage(this.page);

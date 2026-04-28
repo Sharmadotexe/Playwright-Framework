@@ -1,7 +1,11 @@
-const { expect } = require("@playwright/test");
+import { Page,expect,Locator } from "@playwright/test";
 
-class OrderConfirmationPage {
-    constructor(page) {
+export class OrderConfirmationPage {
+    page:Page;
+    thankyouTextLocator:Locator;
+    orderIDLocator:Locator;
+    navOrdersLocator:Locator;
+    constructor(page:Page) {
         this.page = page;
         this.thankyouTextLocator =  page.locator(".hero-primary");
         this.orderIDLocator =  page.locator('label[class="ng-star-inserted"]');
