@@ -1,8 +1,8 @@
-const { expect, test, request } = require('@playwright/test');
+import {expect,test,request} from "@playwright/test";
 import {ApiUtils} from "../utils/ApiUtils";
 let token;
 let orderID;
-let response;
+let response:any;
 
 const loginPayload = {
     userEmail: "Usertest1211@gmail.com",
@@ -51,7 +51,7 @@ test(" @API End to End Demo test", async ({ page }) => {
         }
         else {
             console.log("OrderID not found");
-            expect().toBeFalsy();
+            expect(false).toBeTruthy();
         }
     }
 
