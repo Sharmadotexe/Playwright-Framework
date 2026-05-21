@@ -59,7 +59,3 @@ test(" @API End to End Demo test", async ({ page }) => {
     const orderIDLoc = await page.locator('.col-text.-main').textContent();
     await expect(response.orderID.includes(orderIDLoc)).toBeTruthy();
 });
-
-
-
-
