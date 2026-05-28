@@ -18,6 +18,3 @@ export class CartPage{
         await this.checkOutBtn.click();
     }
 };
-
-
-module.exports={CartPage};

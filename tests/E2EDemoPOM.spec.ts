@@ -14,7 +14,7 @@ test(`@WEB End to End Demo test for ${data.productName}`, async ({ page }) => {
     let orderID:any;
     
 
-    const loginPage = poManager.getLoginPage();
+    const loginPage = poManager.getLoginPage(page);
     await loginPage.goToPage();
     await loginPage.validLogin(data.email, data.password);
 
@@ -51,7 +51,7 @@ const poManager = new POManager(page);
     let orderID: any;
     
 
-    const loginPage = poManager.getLoginPage();
+    const loginPage = poManager.getLoginPage(page);
     await loginPage.goToPage();
     await loginPage.validLogin(testDataForOrder.email, testDataForOrder.password);
 

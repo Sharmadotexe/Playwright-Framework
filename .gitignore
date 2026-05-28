@@ -13,3 +13,7 @@ state.json
 allure-report/
 allure-results/
 
+
+cucumber.js
+cucumber-report.html
+screenshot1.png

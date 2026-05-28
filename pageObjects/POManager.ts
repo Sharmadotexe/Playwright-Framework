@@ -29,7 +29,7 @@ export class POManager{
         this.confirmOrderPage = new ConfirmOrderPage(this.page);
     };
 
-    getLoginPage(){
+    getLoginPage(page: Page){
         return this.loginPage;
     };
 
@@ -58,5 +58,3 @@ export class POManager{
     }
 
 };
-
-module.exports = {POManager};
